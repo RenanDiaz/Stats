@@ -21,27 +21,41 @@
 <body>
   <div class="container">
     <div class="form">
-      <form action="/datos" method="post">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="form-group">
-              <label>Datos</label>
-              <textarea name="datos" class="form-control"></textarea>
-            </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label>Datos</label>
+            <textarea name="datos" id="datos" class="form-control"></textarea>
           </div>
         </div>
-        <div class="row">
-          <div class="col-xs-12">
-            <input type="submit" class="btn btn-default">
-          </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <input type="submit" class="btn btn-default" id="btn-submit">
         </div>
-      </form>
+      </div>
     </div>
-    <c:forEach items="${datos}" var="dato">
+<%--     <c:forEach items="${datos}" var="dato">
       <div class="row">
         <div class="col-xs-12">${dato}</div>
       </div>
-    </c:forEach>
+    </c:forEach> --%>
   </div>
 </body>
+<script type="text/javascript">
+$("#btn-submit").click(function(){
+  var texto = $("#datos").val();
+  var lista = texto.split(/[\r\n]+/g);
+  $.ajax({
+    url: "/datos",
+    method: "POST",
+    data: {
+      lista: lista
+    },
+    success: function(data){
+      console.log(data);
+    }
+  });
+});
+</script>
 </html>

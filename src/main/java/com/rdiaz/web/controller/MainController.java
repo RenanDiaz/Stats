@@ -1,8 +1,5 @@
 package com.rdiaz.web.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -11,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.rdiaz.model.Datos;
+
 @Controller
 public class MainController
 {
-    private ArrayList<String> datos = new ArrayList<String>();
+    private Datos datos;
     
     @RequestMapping("/")
     @ResponseBody
@@ -31,10 +30,10 @@ public class MainController
     }
     
     @RequestMapping(value = "/datos", method = RequestMethod.POST)
-    public void datos(@RequestParam("datos") String datos)
+    @ResponseBody public Datos datos(@RequestParam("lista[]") Double[] lista)
     {
-        this.datos = new ArrayList<String>();
-        this.datos.addAll(Arrays.asList(datos.split("\\r?\\n")));
-        System.out.println(this.datos);
+        datos = new Datos(lista);
+        datos.armarTablaSencilla();
+        return datos;
     }
 }
